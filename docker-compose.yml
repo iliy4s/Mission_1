@@ -1,0 +1,12 @@
+services:
+  web:
+    build: .
+    container_name: mi1_web
+    ports:
+      - "8000:${PORT}"
+    env_file:
+      - .env
+    environment:
+      - APP_ENV=${APP_ENV}
+    command: python app/main.py
+    restart: unless-stopped

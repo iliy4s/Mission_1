@@ -1,0 +1,123 @@
+`Step 1 
+    Write a clean Dockerfile (multi-stage, but simple)
+        Requirements: Use an official base image (python:3.11-slim or node:20-alpine).
+
+    Multi-stage to keep the final image small (build stage → runtime stage).
+
+
+    Copy only what’s needed (first lock files, then source).
+
+
+    Create a non-root user and run the app as that user.
+
+
+    Add a HEALTHCHECK that curls http://localhost:$PORT/healthz.
+
+
+    Expose port via ENV PORT=... and CMD to start the app.
+
+
+    Artifacts expected: Dockerfile
+
+Step 2 
+    Compose for local ergonomics
+        Requirements: docker-compose.yml with one service web.
+
+
+    Map host port 8080:PORT (choose 3000 or 8000 inside container).
+
+
+    Pass environment via .env (provide a .env.example with PORT and APP_ENV).
+
+
+    Log to stdout/stderr (confirm docker logs web shows requests).
+
+
+    Artifacts expected: docker-compose.yml, .env.example
+
+Step 3 
+    Convenience & repeatability
+        Requirements: Makefile with targets:
+
+
+    make build → docker build -t demoapp:local .
+
+
+    make run → docker compose up -d
+
+
+    make test → run app tests inside a container (or locally via docker run --rm)
+
+
+    make lint → run linter
+
+
+    make clean → remove containers/image
+
+
+Short notes in top of Makefile or README on usage.
+
+
+Artifacts expected: Makefile
+
+Step 4 — CI workflow (one file, one job sequence)
+Requirements:
+.github/workflows/ci.yml
+
+
+Trigger on push and pull_request.
+
+
+Steps:
+
+
+Checkout repo
+
+
+Set up language (Python or Node) and cache deps
+
+
+Install deps
+
+
+Lint (flake8 or eslint)
+
+
+Test (run unit tests; fail on red)
+
+
+Docker build (no push), e.g., docker build -t demoapp:ci .
+
+
+Mark the build job dependent on lint+test.
+
+
+Artifacts expected: .github/workflows/ci.yml
+
+Step 5 
+    Design notes (8–12 sentences)
+        Explain:
+            Dockerfile choices (base image, multi-stage, non-root, healthcheck).
+
+
+            Why Compose improves local dev parity.
+
+
+            What CI validates and why it blocks merges on red.
+
+
+            one trade-off (e.g., build speed vs. image size).
+
+
+            One extension (e.g., push to registry, Trivy scan, or multi-arch build).
+
+
+Artifacts expected: design_notes.md
+
+What to Deliver:
+        Dockerfile
+        docker-compose.yml
+        .env.example
+        Makefile
+        .github/workflows/ci.yml
+        design_notes.md`
