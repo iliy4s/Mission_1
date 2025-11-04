@@ -4,16 +4,18 @@
 # make run : to run the app
 # make lint : to check the docker file
 # make clean : to stop and clean all the containers/images
-APP=mission_1-web
-TAG=latest
 
 build:
-	docker compose -t $(APP):$(TAG) .
-test:
-	docker compose ecex web pytest -v
+	docker compose build
+
 run:
-	docker compose up
+	docker compose up -d
+
+test:
+	docker compose run --rm web pytest
+
 lint:
-	docker compose ecex wed flake8 app
+	docker compose run --rm web flake8 app tests
+
 clean:
-	docker compose down --rmi all --volumes
+	docker compose down --rmi all --volumes --remove-orphans

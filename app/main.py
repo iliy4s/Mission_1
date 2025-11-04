@@ -5,6 +5,7 @@ import sys
 import time
 from flask import Flask, jsonify, g, request
 
+
 def create_app() -> Flask:
     app = Flask(__name__)
 
@@ -22,7 +23,8 @@ def create_app() -> Flask:
 
     @app.after_request
     def _log_request(response):
-        duration_ms = int((time.time() - g.get("_start_time", time.time())) * 1000)
+        start_time = g.get("_start_time", time.time())
+        duration_ms = int((time.time() - start_time) * 1000)
         logger.info(
             "%s %s %s %s %dms",
             request.remote_addr,
@@ -48,5 +50,3 @@ def create_app() -> Flask:
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", "8000"))
     create_app().run(host="0.0.0.0", port=port)
-
-
