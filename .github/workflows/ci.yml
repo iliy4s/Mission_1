@@ -19,8 +19,8 @@ jobs:
 
         - name: instalation of dependences
           run: |
-            pip install --no-cache-dir --upgrade pip && \
-            pip install --no-cache-dir -r requirements.txt
+              pip install --upgrade pip
+              pip install -r requirements.txt
         - name: lint
           run: flake8 app
         - name: Test
