@@ -5,7 +5,7 @@ on:
     pull_request:
 jobs:
     buid-test:
-        runs-on: ubuntu-lastest
+        runs-on: ubuntu-latest
 
         steps:
         - name: checkout
