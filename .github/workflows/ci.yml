@@ -23,7 +23,7 @@ jobs:
             pip install --no-cache-dir -r requirements.txt
         - name: lint
           run: flake8 app
-        - name: test
-          run: pytest -v
+        - name: Test
+          run: PYTHONPATH=. pytest -v
         - name: docker-image
           run: docker build -t mission1:ci .
